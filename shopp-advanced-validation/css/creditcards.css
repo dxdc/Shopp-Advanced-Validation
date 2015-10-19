@@ -1,0 +1,44 @@
+#shopp #checkout li.payment input[type="text"] {
+height: 26px;
+-moz-box-sizing: content-box;
+-webkit-box-sizing: content-box;
+}
+
+#shopp #checkout input#billing-card {
+  background-image: url(creditcards.png), url(creditcards.png);
+  background-position: 2px -121px, 260px -61px;
+  background-size: 120px 361px, 120px 361px;
+  background-repeat: no-repeat;
+  padding-left: 65px;
+  width: 215px;
+}
+#shopp #checkout input#billing-card.visa {
+  background-position: 2px -163px, 260px -61px;
+}
+#shopp #checkout input#billing-card.visa_electron {
+  background-position: 2px -205px, 260px -61px;
+}
+#shopp #checkout input#billing-card.mastercard {
+  background-position: 2px -247px, 260px -61px;
+}
+#shopp #checkout input#billing-card.maestro {
+  background-position: 2px -289px, 260px -61px;
+}
+#shopp #checkout input#billing-card.discover {
+  background-position: 2px -331px, 260px -61px;
+}
+#shopp #checkout input#billing-card.valid.visa {
+  background-position: 2px -163px, 260px -87px;
+}
+#shopp #checkout input#billing-card.valid.visa_electron {
+  background-position: 2px -205px, 260px -87px;
+}
+#shopp #checkout input#billing-card.valid.mastercard {
+  background-position: 2px -247px, 260px -87px;
+}
+#shopp #checkout input#billing-card.valid.maestro {
+  background-position: 2px -289px, 260px -87px;
+}
+#shopp #checkout input#billing-card.valid.discover {
+  background-position: 2px -331px, 260px -87px;
+}
