@@ -47,19 +47,16 @@ class ShoppAdvancedValidation
         $this->path = plugin_dir_path(__FILE__);
 
         add_action('init',
-        array($this, 'register_css_js'
-        ));
+        array($this, 'register_css_js'));
 
         add_action('wp_enqueue_scripts',
-        array($this, 'enqueue_css_js'
-        ));
+        array($this, 'enqueue_css_js'));
     }
 
     static function &object()
     {
-        if (!self::$object instanceof ShoppAdvancedValidation) {
+        if (!self::$object instanceof ShoppAdvancedValidation)
             self::$object = new ShoppAdvancedValidation();
-        }
         return self::$object;
     }
 
@@ -166,7 +163,6 @@ class ShoppAdvancedValidation
             null,
             $version);
         }
-
     }
 
     public function enqueue_css_js()
