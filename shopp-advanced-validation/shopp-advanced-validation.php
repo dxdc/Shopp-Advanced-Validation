@@ -9,32 +9,28 @@ Author URI: http://github.com/msigley/
 License: GPLv3
 */
 
-// Support for Constants in wp-config.php
-$args = array(
+class ShoppAdvancedValidation
+{
+    private static $object = null;
+    private $plugin_slug = null;
+
+    // Support for Constants in wp-config.php
+    private static $contruct_args = array(
     'mailgun_public_api_key',
     'google_maps_js_api_browser_key',
     'complexify_password_fields',
     'stripe_public_api_key',
     'stripe_test_api_key',
     'update_cart_tooltip'
-);
+    );
 
-class ShoppAdvancedValidation
-{
-    private static $object = null;
-    private $plugin_slug = null;
     public $url = null;
     public $path = null;
 
     private function __construct($args = array())
     {
-        foreach ($args as $arg_name => $arg_value) {
-            if (!empty($arg_value)) {
-                $this->$arg_name = $arg_value;
-            }
-            else {
-                $this->$arg_name = false;
-            }
+        foreach (self::$contruct_args as $arg_name) {
+            $this->$arg_name = (defined(strtoupper($arg_name))) ? constant(strtoupper($arg_name)) : false;
         }
 
         // Plugin slug for internal action and filter identification
@@ -59,12 +55,10 @@ class ShoppAdvancedValidation
         ));
     }
 
-    static function &object($args = array())
+    static function &object()
     {
         if (!self::$object instanceof ShoppAdvancedValidation) {
-            if (empty($args))
-                return false;
-            self::$object = new ShoppAdvancedValidation($args);
+            self::$object = new ShoppAdvancedValidation();
         }
         return self::$object;
     }
@@ -215,8 +209,4 @@ class ShoppAdvancedValidation
     }
 }
 
-foreach($args as $arg) {
-    $args[$arg] = (defined(strtoupper($arg))) ? constant(strtoupper($arg)) : null;
-}
-
-$ShoppAdvancedValidation = ShoppAdvancedValidation::object($args);
+$ShoppAdvancedValidation = ShoppAdvancedValidation::object();
