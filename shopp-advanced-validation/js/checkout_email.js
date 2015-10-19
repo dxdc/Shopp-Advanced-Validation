@@ -29,7 +29,6 @@ jQuery(document).ready(function($) {
             emailParent.css({
                 'position': 'relative'
             });
-
             mailgunMessageDiv.css({
                 'font-family': emailField.css('font-family'),
                 'font-size': emailField.css('font-size'),
@@ -39,26 +38,8 @@ jQuery(document).ready(function($) {
                 'top': emailField.position().top + emailField.outerHeight(),
                 'left': 0,
                 'width': emailField.outerWidth(),
-                'box-sizing': 'border-box',
-                'padding': '5px',
-                'margin': '10px 0 0 0',
-                'background': '#555',
-                'color': '#fff'
+                'box-sizing': 'border-box'
             });
-
-            $('#mailgun-message div').css({
-                'padding': '2px'
-            });
-
-            $('.did-you-mean').css({
-                'background-color': '#cb1b00',
-                'color': '#fff',
-                'display': 'block',
-                'font-weight': 'bold',
-                'padding': '1px',
-                'margin-top': '2px'
-            });
-
         }
 
         var mailgunQuestion = $('<div class="question">Did you mean: <mark class="did-you-mean"></mark>?</div>'),

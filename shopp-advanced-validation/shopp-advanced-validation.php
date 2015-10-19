@@ -92,6 +92,11 @@ class ShoppAdvancedValidation
             array(
                 'mailgunPubKey' => $this->mailgun_public_api_key
             ));
+
+            wp_register_style($this->plugin_slug . '_css_checkout_email',
+            $this->url . 'css/mailgun.css',
+            null,
+            $version);
         }
 
         // Complexify Password Strength Scripts
@@ -174,8 +179,10 @@ class ShoppAdvancedValidation
     {
         if (is_checkout_page()) {
             // Mailgun
-            if ($this->mailgun_public_api_key)
+            if ($this->mailgun_public_api_key) {
                 wp_enqueue_script($this->plugin_slug . '_checkout_email');
+                wp_enqueue_style($this->plugin_slug . '_css_checkout_email');
+            }
 
             // Complexify
             if ($this->complexify_password_fields)
