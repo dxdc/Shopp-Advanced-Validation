@@ -163,8 +163,8 @@ class ShoppAdvancedValidation
             wp_localize_script($this->plugin_slug . '_stripe_token',
             'shoppAdvStripe',
             array(
-                'stripePubKey' => $this->stripe_public_api_key,
-                'stripeTestKey' => $this->stripe_test_api_key
+                'stripePubKey' => ($this->stripe_public_api_key) ? $this->stripe_public_api_key : '',
+                'stripeTestKey' => ($this->stripe_test_api_key) ? $this->stripe_test_api_key : ''
             ));
 
             wp_register_style($this->plugin_slug . '_css_creditcards',
