@@ -1,5 +1,5 @@
 jQuery(document).ready(function($) {
-    $.fn.setDisabled = function(isDisabled) {
+    $.fn.setReadOnly = function(isDisabled) {
         jQuery(this).each(function() {
             if (isDisabled) {
                 jQuery(this).attr("readonly", true).addClass("disabled");
@@ -79,7 +79,7 @@ jQuery(document).ready(function($) {
             in_progress: function(e) {
                 $(window).off('.mailgunValidator');
                 hideMailgunMessage();
-                emailField.setDisabled(true);
+                emailField.setReadOnly(true);
                 errorElements.removeClass('error');
             },
             success: function(data, e) {
@@ -113,7 +113,7 @@ jQuery(document).ready(function($) {
                     }
                 }
 
-                emailField.setDisabled(false);
+                emailField.setReadOnly(false);
                 $(window).on('click.mailgunValidator focusin.mailgunValidator', {
                     'focusoutEvent': e
                 }, hideMailgunMessageEvent);
@@ -123,7 +123,7 @@ jQuery(document).ready(function($) {
                 showMailgunMessage(mailgunError, {
                     'message': error
                 });
-                emailField.setDisabled(false);
+                emailField.setReadOnly(false);
                 $(window).on('click.mailgunValidator focusin.mailgunValidator', {
                     'focusoutEvent': e
                 }, hideMailgunMessageEvent);
