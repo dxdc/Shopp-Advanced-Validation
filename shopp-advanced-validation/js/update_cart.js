@@ -1,8 +1,8 @@
 jQuery(document).ready(function($) {
-    // Shopp auto-update
-    $("#shopp div.qty-cart input").bind('change', function() {
-        $("input#update-shopping").click();
-    });
+    // Shopp auto-update; integrated into 1.3.12
+    // $("#shopp div.qty-cart input").bind('change', function() {
+    //     $("input#update-shopping").click();
+    // });
 
     // Add tooltip
     $(".xcheckout img").on({
