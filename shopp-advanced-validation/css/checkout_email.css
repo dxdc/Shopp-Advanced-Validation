@@ -1,13 +1,13 @@
-#mailgun-message {
+#mailgun-message, #mailboxlayer-message {
     padding: 5px;
     margin: 10px 0 0 0;
     background: #555;
     color: #fff;
 }
-#mailgun-message div {
+#mailgun-message div, #mailboxlayer-message div {
     padding: 2px;
 }
-#mailgun-message mark.did-you-mean {
+#mailgun-message mark.did-you-mean, #mailboxlayer-message mark.did-you-mean {
     background-color: #cb1b00;
     color: #fff;
     display: block;

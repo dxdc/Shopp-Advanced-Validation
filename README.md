@@ -4,7 +4,7 @@ Wordpress plugin to add advanced input validation to Shopp's checkout page. (htt
 ### Installation
 * Load the shopp-advanced-validation folder into your WP plugins directory and activate the plugin in the WP panel
 
-## 1. Advanced Email Validation via Mailgun API
+## 1. Advanced Email Validation via Mailgun API or Mailboxlayer API
 
 This is based on the Mailgun validator:
 https://github.com/mailgun/validator-demo
@@ -20,12 +20,19 @@ Given an arbitrary address, Mailgun will validate the address based on:
 * Spell checks
 * Email Service Provider (ESP) specific local-part grammar (if available)
 
-### How to use the email validator on your Shopp
+### How to use the Mailgun email validator on your Shopp
 
 1. Sign up for a Mailgun account get a public API key
 2. Add ```defined('MAILGUN_PUBLIC_API_KEY', 'YOUR_PUBLIC_API_KEY');``` into your wp-config.php file (with the API key from the previous step)
 3. ```#mailgun-message``` can be customized to include your own HTML/CSS.
 
+### To use Mailboxlayer email validator on your Shopp
+
+1. Sign up for a Mailboxlayer account get a public API key
+2. Add ```defined('MAILBOXLAYER_PUBLIC_API_KEY', 'YOUR_PUBLIC_API_KEY');``` into your wp-config.php file (with the API key from the previous step)
+3. ```#mailboxlayer-message``` can be customized to include your own HTML/CSS.
+
+Note: If both Mailgun and Mailboxlayer API keys are detected; Mailgun will be preferentially used.
 
 ## 2. Password strength evaluation via the jQuery Complexify algorithm.
 

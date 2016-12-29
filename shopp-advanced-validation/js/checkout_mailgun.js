@@ -97,8 +97,8 @@ jQuery(document).ready(function($) {
                         });
                     }
                 } else {
-                    if (!data.is_valid)
-                        errorElements.addClass('error');
+                    /* if (!data.is_valid)
+                        errorElements.addClass('error'); */
 
                     if (data.did_you_mean) {
                         showMailgunMessage(mailgunQuestion, {
@@ -106,7 +106,7 @@ jQuery(document).ready(function($) {
                         });
                     } else if (!data.is_valid) {
                         showMailgunMessage(mailgunError, {
-                            'message': 'Invalid email address.'
+                            'message': 'Is this email address correct?'
                         });
                     } else {
                         showMailgunMessage(mailgunVerified);
@@ -137,5 +137,4 @@ if (!Date.now) {
     Date.now = function now() {
         return new Date().getTime();
     };
-}
-;
+};

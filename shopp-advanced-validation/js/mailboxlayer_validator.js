@@ -1,9 +1,9 @@
 //
-// Mailgun Address Validation Plugin
+// Mailboxlayer Address Validation Plugin
 //
 // Attaching to a form:
 //
-//    $('jquery_selector').mailgun_validator({
+//    $('jquery_selector').mailboxlayer_validator({
 //        api_key: 'api-key',
 //        in_progress: in_progress_callback, // called when request is made to validator
 //        success: success_callback,         // called when validator has returned
@@ -13,21 +13,25 @@
 //
 // Sample JSON in success callback:
 //
-//  {
-//      "is_valid": true,
-//      "parts": {
-//          "local_part": "john.smith@example.com",
-//          "domain": "example.com",
-//          "display_name": ""
-//      },
-//      "address": "john.smith@example.com",
-//      "did_you_mean": null
-//  }
+// {
+//  "email": "support@apilayer.com",
+//  "did_you_mean": "",
+//  "user": "support",
+//  "domain": "apilayer.net",
+//  "format_valid": true,
+//  "mx_found": true,
+//  "smtp_check": true,
+//  "catch_all": false,
+//  "role": true,
+//  "disposable": false,
+//  "free": false,
+//  "score": 0.8
+// }
 //
-// More API details: https://api.mailgun.net/v2/address
+// More API details: https://mailboxlayer.com/documentation
 //
 (function($) {
-    $.fn.mailgun_validator = function(options) {
+    $.fn.mailboxlayer_validator = function(options) {
         return this.each(function() {
             var thisElement = $(this);
             thisElement.focusout(function(e) {
@@ -48,9 +52,9 @@
 
     function run_validator(address_text, options, element) {
         //Abort existing AJAX Request to prevent flooding
-        if (element.mailgunRequest) {
-            element.mailgunRequest.abort();
-            element.mailgunRequest = null;
+        if (element.mailboxlayerRequest) {
+            element.mailboxlayerRequest.abort();
+            element.mailboxlayerRequest = null;
         }
 
         // don't run validator without input
@@ -64,10 +68,10 @@
         }
 
         // don't run dupicate calls
-        if (element.mailgunLastSuccessReturn) {
-            if (address_text == element.mailgunLastSuccessReturn.address) {
+        if (element.mailboxlayerLastSuccessReturn) {
+            if (address_text == element.mailboxlayerLastSuccessReturn.address) {
                 if (options && options.success) {
-                    options.success(element.mailgunLastSuccessReturn, options.e);
+                    options.success(element.mailboxlayerLastSuccessReturn, options.e);
                 }
                 return;
             }
@@ -91,7 +95,7 @@
 
         // require api key
         if (options && options.api_key == undefined) {
-            if (console) console.log('Please pass in api_key to mailgun_validator.');
+            if (console) console.log('Please pass in api_key to mailboxlayer_validator.');
         }
 
         // timeout incase of some kind of internal server error
@@ -99,9 +103,9 @@
             error_message = 'Error occurred, unable to validate address.';
             if (!success) {
                 //Abort existing AJAX Request for a true timeout
-                if (element.mailgunRequest) {
-                    element.mailgunRequest.abort();
-                    element.mailgunRequest = null;
+                if (element.mailboxlayerRequest) {
+                    element.mailboxlayerRequest.abort();
+                    element.mailboxlayerRequest = null;
                 }
 
                 if (options && options.error) {
@@ -113,19 +117,20 @@
         }, 10000); //10 seconds
 
         // make ajax call to get validation results
-        element.mailgunRequest = $.ajax({
+        element.mailboxlayerRequest = $.ajax({
             type: 'GET',
-            url: 'https://api.mailgun.net/v2/address/validate?callback=?',
+            url: 'https://apilayer.net/api/check?callback=?',
             data: {
-                address: address_text,
-                api_key: options.api_key
+                email: address_text,
+                smtp: 1,
+                access_key: options.api_key
             },
             dataType: 'jsonp',
             crossDomain: true,
             success: function(data, status_text) {
                 clearTimeout(timeoutID);
 
-                element.mailgunLastSuccessReturn = data;
+                element.mailboxlayerLastSuccessReturn = data;
                 if (options && options.success) {
                     options.success(data, options.e);
                 }

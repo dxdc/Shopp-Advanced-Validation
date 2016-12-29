@@ -17,6 +17,7 @@ class ShoppAdvancedValidation
     // Support for Constants in wp-config.php
     private static $contruct_args = array(
     'mailgun_public_api_key',
+    'mailboxlayer_public_api_key',
     'google_maps_js_api_browser_key',
     'complexify_password_fields',
     'stripe_public_api_key',
@@ -73,19 +74,43 @@ class ShoppAdvancedValidation
             array('jquery'),
             $version);
 
-            wp_register_script($this->plugin_slug . '_checkout_email',
-            $this->url . 'js/checkout_email.js',
+            wp_register_script($this->plugin_slug . '_mailgun_email',
+            $this->url . 'js/checkout_mailgun.js',
             array($this->plugin_slug . '_mailgun_validator'),
             $version);
 
-            wp_localize_script($this->plugin_slug . '_checkout_email',
+            wp_localize_script($this->plugin_slug . '_mailgun_email',
             'shoppAdvValid',
             array(
                 'mailgunPubKey' => $this->mailgun_public_api_key
             ));
 
             wp_register_style($this->plugin_slug . '_css_checkout_email',
-            $this->url . 'css/mailgun.css',
+            $this->url . 'css/checkout_email.css',
+            null,
+            $version);
+        }
+
+        // Mailboxlayer Email Validator Scripts
+        if ($this->mailboxlayer_public_api_key) {
+            wp_register_script($this->plugin_slug . '_mailboxlayer_validator',
+            $this->url . 'js/mailboxlayer_validator.js',
+            array('jquery'),
+            $version);
+
+            wp_register_script($this->plugin_slug . '_mailboxlayer_email',
+            $this->url . 'js/checkout_mailboxlayer.js',
+            array($this->plugin_slug . '_mailboxlayer_validator'),
+            $version);
+
+            wp_localize_script($this->plugin_slug . '_mailboxlayer_email',
+            'shoppAdvValid',
+            array(
+                'mailboxlayerPubKey' => $this->mailboxlayer_public_api_key
+            ));
+
+            wp_register_style($this->plugin_slug . '_css_checkout_email',
+            $this->url . 'css/checkout_email.css',
             null,
             $version);
         }
@@ -167,10 +192,20 @@ class ShoppAdvancedValidation
 
     public function enqueue_css_js()
     {
+        global $wp_query;
+        if ( ! isset($wp_query) )
+            return false;
+
         if (is_checkout_page()) {
             // Mailgun
             if ($this->mailgun_public_api_key) {
-                wp_enqueue_script($this->plugin_slug . '_checkout_email');
+                wp_enqueue_script($this->plugin_slug . '_mailgun_email');
+                wp_enqueue_style($this->plugin_slug . '_css_checkout_email');
+            }
+
+            // Mailboxlayer
+            else if ($this->mailboxlayer_public_api_key) {
+                wp_enqueue_script($this->plugin_slug . '_mailboxlayer_email');
                 wp_enqueue_style($this->plugin_slug . '_css_checkout_email');
             }
 
