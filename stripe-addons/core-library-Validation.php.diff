@@ -1,0 +1,12 @@
+diff --git a/core/library/Validation.php b/core/library/Validation.php
+index b5cae8e..687280f 100755
+--- a/core/library/Validation.php
++++ b/core/library/Validation.php
+@@ -158,6 +158,7 @@ class ShoppFormValidation {
+                // Skip validating payment details for purchases not requiring a
+                // payment (credit) card including free orders, remote checkout systems, etc
+                if ( false === $card ) return $result;
++               if ( isset($fields['stripeToken']) ) return $result; // Skip if Stripe token is set
+
+                if ( apply_filters('shopp_billing_valid_card', ! $card->validate($fields['card']) ))
+                        return shopp_add_error( Shopp::__('The credit card number you provided is invalid.') );

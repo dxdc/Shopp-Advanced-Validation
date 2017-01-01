@@ -1,0 +1,51 @@
+diff --git a/core/flow/Checkout.php b/core/flow/Checkout.php
+index c4dcb9f..1c07f67 100755
+--- a/core/flow/Checkout.php
++++ b/core/flow/Checkout.php
+@@ -216,11 +216,17 @@ class ShoppCheckout extends FormPostFramework {
+
+                // If the card number is provided over a secure connection
+                // Change the cart to operate in secure mode
+-               if ( ! empty($form['card']) && is_ssl() )
++               if (( ! empty($form['card']) && is_ssl() ) or ( ! empty($form['stripeToken']) && is_ssl() ))
+                        ShoppShopping()->secured(true);
+
++        if (! empty($form['stripeToken']) ) {
++            // If Stripe token is set, skip processing
++            $Billing->stripeToken = $form['stripeToken'];
++            $Billing->cvv = 0; // empty
++        }
++
+                // Sanitize the card number to ensure it only contains numbers
+-               if ( strlen( $PAN = self::digitsonly($form['card']) ) > 4 )
++               if ( strlen( $PAN = self::digitsonly($form['card']) ) >= 4 )
+                        $Billing->card = $PAN;
+
+                if ( ! empty($form['cardexpires-mm']) && ! empty($form['cardexpires-yy']) ) {
+@@ -229,7 +235,8 @@ class ShoppCheckout extends FormPostFramework {
+                        $Billing->cardexpires = mktime(0, 0, 0, $exmm, 1, $exyy + 2000);
+                } else $Billing->cardexpires = 0;
+
+-               $Billing->cvv = self::digitsonly($form['cvv']);
++               if (! empty($form['cvv']) )
++                       $Billing->cvv = self::digitsonly($form['cvv']);
+
+                // Extra card security check fields
+                if ( ! empty($form['xcsc']) ) {
+@@ -252,9 +259,14 @@ class ShoppCheckout extends FormPostFramework {
+        public function paycard () {
+                $fields = array('card', 'cardexpires-mm', 'cardexpires-yy', 'cvv');
+                $billing = $this->form('billing');
+-               foreach ( $fields as $field )
+-                       if ( isset($billing[ $field ]) ) return true;
+-               return false;
++        if ( isset($billing['stripeToken'] )) {
++                       return true;
++        }
++        else {
++                       foreach ( $fields as $field )
++                               if ( isset($billing[ $field ]) ) return true;
++                       return false;
++           }
+        }
+
