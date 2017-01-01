@@ -180,9 +180,11 @@ jQuery(document).ready(function($) {
                 };
                 showError(error);
 
-                // Prevent additional form validation
-                e.preventDefault();
-                e.stopImmediatePropagation();
+                if (isApplePay) {
+                    // Prevent additional form validation
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                }
                 return false;
             }
 
