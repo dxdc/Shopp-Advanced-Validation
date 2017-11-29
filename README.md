@@ -91,19 +91,23 @@ This modification enables the use of Stripe's tokens during Shopp checkout. This
 5. Edit the shopp-addons/stripe/Stripe.php gateway file:
 
     Delete these lines:
-    ```
+    
+ ```
 'paytype'   => $Billing->cardtype,
 'payid'     => Billing->card,
 ...
 ...
 'card'     => array(
 ```
+
     Replace with:
-    ```
+
+```
 'paytype'   => $response->source->brand, // $Billing->cardtype
 'payid'     => $response->source->last4, // Billing->card
 ...
 ...
 'source'     => isset($Billing->stripeToken) ? $Billing->stripeToken : array(
 ```
+
 6. The `creditcards.css` file contains additional customizations for the Apple Pay button. Note: Follow Stripe's instructions to test Apple Pay with your test Stripe key, as an Apple Pay Sandbox account is required.
